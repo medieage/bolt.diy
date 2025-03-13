@@ -20,12 +20,8 @@ const getGitInfo = () => {
       commitTime: execSync('git log -1 --format=%cd').toString().trim(),
       author: execSync('git log -1 --format=%an').toString().trim(),
       email: execSync('git log -1 --format=%ae').toString().trim(),
-      remoteUrl: execSync('git config --get remote.origin.url').toString().trim(),
-      repoName: execSync('git config --get remote.origin.url')
-        .toString()
-        .trim()
-        .replace(/^.*github.com[:/]/, '')
-        .replace(/\.git$/, ''),
+      remoteUrl: 'https://github.com/medieage/bolt.diy.git',
+      repoName: 'medieage/bolt.diy',
     };
   } catch {
     return {
@@ -34,8 +30,8 @@ const getGitInfo = () => {
       commitTime: 'unknown',
       author: 'unknown',
       email: 'unknown',
-      remoteUrl: 'unknown',
-      repoName: 'unknown',
+      remoteUrl: 'https://github.com/medieage/bolt.diy.git',
+      repoName: 'medieage/bolt.diy',
     };
   }
 };
