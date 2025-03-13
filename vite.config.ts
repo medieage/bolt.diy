@@ -11,7 +11,7 @@ import { join } from 'path';
 
 dotenv.config();
 
-// Get detailed git info with fallbacks
+// Получение информации о Git
 const getGitInfo = () => {
   try {
     return {
@@ -40,7 +40,7 @@ const getGitInfo = () => {
   }
 };
 
-// Read package.json with detailed dependency info
+// Получение информации из package.json
 const getPackageJson = () => {
   try {
     const pkgPath = join(process.cwd(), 'package.json');
@@ -73,6 +73,12 @@ const gitInfo = getGitInfo();
 
 export default defineConfig((config) => {
   return {
+    server: {
+      allowedHosts: [
+        'boltdiy-production-a3ae.up.railway.app', // Railway-домен
+        'localhost'
+      ]
+    },
     define: {
       __COMMIT_HASH: JSON.stringify(gitInfo.commitHash),
       __GIT_BRANCH: JSON.stringify(gitInfo.branch),
@@ -89,7 +95,6 @@ export default defineConfig((config) => {
       __PKG_DEV_DEPENDENCIES: JSON.stringify(pkg.devDependencies),
       __PKG_PEER_DEPENDENCIES: JSON.stringify(pkg.peerDependencies),
       __PKG_OPTIONAL_DEPENDENCIES: JSON.stringify(pkg.optionalDependencies),
-      // Define global values
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     },
     build: {
@@ -124,7 +129,6 @@ export default defineConfig((config) => {
           global: true,
         },
         protocolImports: true,
-        // Exclude Node.js modules that shouldn't be polyfilled in Cloudflare
         exclude: ['child_process', 'fs', 'path'],
       }),
       {
